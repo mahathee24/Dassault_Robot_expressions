@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Robot Display</title>
+  <style>
+    body {
+      background: #101010;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .robot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .head {
+      width: 350px;
+      height: 350px;
+      background: black;
+      border-radius: 25px;
+      border: 5px solid white;
+      position: relative;
+    } 
+
+    .eye {
+      width: 8vmin;
+      height: 8vmin;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 25%;
+    }
+
+    .eye.left { left: 10%; }
+    .eye.right { right: 10%; }
+
+    .mouth {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+    }
+
+    .happy .mouth {
+      bottom: 15%;
+      width: 20vmin;
+      height: 4vmin;
+      border-radius: 0 0 10vmin 10vmin;
+    }
+
+    .sad .mouth {
+      bottom: 15%;
+      width: 20vmin;
+      height: 4vmin;
+      border-radius: 10vmin 10vmin 0 0;
+    }
+
+    .angry .eye.left {
+      transform: rotate(20deg);
+    }
+
+    .angry .eye.right {
+      transform: rotate(-20deg);
+    }
+
+    .angry .mouth {
+      bottom: 15%;
+      width: 18vmin;
+      height: 2vmin;
+      background: red;
+    }
+
+    .surprised .mouth {
+      bottom: 25px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+
+    .neutral .mouth {
+      bottom: 25px;
+      width: 40px;
+      height: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Robot Expression</h1>
+
+  <div id="robot" class="robot neutral">
+    <div class="head" id="face">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="mouth"></div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const robot = document.getElementById("robot");
+    const title = document.getElementById("title");
+
+    socket.on('expression', (mood) => {
+      robot.className = 'robot ' + mood;
+      title.innerText = "Robot Expression: " + mood.charAt(0).toUpperCase() + mood.slice(1);
+    });
+  </script>
+</body>
+</html>

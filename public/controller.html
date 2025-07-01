@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Controller</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body style="text-align: center; font-family: sans-serif;">
+  <h2>Control Robot Face</h2>
+  <button onclick="sendMood('happy')">😊 Happy</button>
+  <button onclick="sendMood('sad')">😢 Sad</button>
+  <button onclick="sendMood('angry')">😠 Angry</button>
+  <button onclick="sendMood('surprised')">😮 Surprised</button>
+  <button onclick="sendMood('neutral')">😐 Neutral</button>
+
+  <script>
+    const socket = io();
+    function sendMood(mood) {
+      socket.emit('setMood', mood);
+    }
+  </script>
+</body>
+</html>
